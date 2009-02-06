@@ -1,7 +1,7 @@
 #importloop.pm
 #Last Change: 2009-02-04
 #Copyright (c) 2009 Marc-Seabstian "Maluku" Lucksch
-#Version 0.1
+#Version 0.2
 ####################
 #This file is part of the Dotiac::DTL project. 
 #http://search.cpan.org/perldoc?Dotiac::DTL
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 require Scalar::Util;
 
-our $VERSION = 0.1;
+our $VERSION = 0.2;
 
 sub new {
 	my $class=shift;
@@ -100,7 +100,7 @@ sub print {
 				$newvars->{__first__}=($v == 0);
 				$newvars->{__inner__}=($v!=0 and $v!=$#loop);
 				$newvars->{__last__}=($v == $#loop);
-				$newvars->{__counter__}=$v;
+				$newvars->{__counter__}=$v+1;
 				$newvars->{__odd__}=!($v%2);
 			}
 			$self->{content}->print($newvars,@_);
@@ -138,7 +138,7 @@ sub string {
 				$newvars->{__first__}=($v == 0);
 				$newvars->{__inner__}=($v!=0 and $v!=$#loop);
 				$newvars->{__last__}=($v == $#loop);
-				$newvars->{__counter__}=$v;
+				$newvars->{__counter__}=$v+1;
 				$newvars->{__odd__}=!($v%2);
 			}
 			$r.=$self->{content}->string($newvars,@_);
@@ -183,7 +183,7 @@ sub perlprint {
 		print $fh $in2, "\$vars->{__first__}=(\$loop == 0);\n";
 		print $fh $in2, "\$vars->{__inner__}=(\$loop!=0 and \$loop!=\$#importloop$id);\n";
 		print $fh $in2, "\$vars->{__last__}=(\$loop == \$#importloop$id);\n";
-		print $fh $in2, "\$vars->{__counter__}=\$loop;\n";
+		print $fh $in2, "\$vars->{__counter__}=\$loop+1;\n";
 		print $fh $in2, "\$vars->{__odd__}=!(\$loop%2);\n";
 	}
 	$id = $self->{content}->perlprint($fh,$id+1,$level+1,@_);
@@ -231,7 +231,7 @@ sub perlstring {
 		print $fh $in2, "\$vars->{__first__}=(\$loop == 0);\n";
 		print $fh $in2, "\$vars->{__inner__}=(\$loop!=0 and \$loop!=\$#importloop$id);\n";
 		print $fh $in2, "\$vars->{__last__}=(\$loop == \$#importloop$id);\n";
-		print $fh $in2, "\$vars->{__counter__}=\$loop;\n";
+		print $fh $in2, "\$vars->{__counter__}=\$loop+1;\n";
 		print $fh $in2, "\$vars->{__odd__}=!(\$loop%2);\n";
 	}
 	$id = $self->{content}->perlstring($fh,$id+1,$level+1,@_);
